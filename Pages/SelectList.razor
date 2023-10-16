@@ -1,0 +1,67 @@
+@page "/"
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+   <div class="container-fluid">
+    <a class="navbar-brand" href="#">Blazor Select List Components</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+ <div class="col-md-6">
+  <div class="card">
+          <div class="card-body">
+         <h5 class="card-title">Select List Component</h5>
+             <SelectListCustom
+              Data=People 
+              TextKey="Address"
+              ValueKey="Id"
+              DefaultText="-- Select A Person By Address --"
+              DefaultValue="-1"
+              SelectedOptionByValue="2"
+              Name="People1">
+            </SelectListCustom>
+
+            </div>
+    
+    </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+           <h5 class="card-title">Select List JSON Component</h5>
+            <SelectListJson 
+              Name="People2"
+              Data=@PeopleJson 
+              TextKey="Email" 
+              ValueKey="Id" 
+              DefaultText="-- Select a Person By Email --" 
+              SelectedOptionByValue="5">
+            </SelectListJson>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+
+@code
+{
+  public string PeopleJson;
+  private List<Models.Person> People;
+  protected override void OnInitialized()
+  {
+    int personId = 1; 
+      var faker = new Faker<Models.Person>()
+        .RuleFor(p=>p.Id, f=>personId++)
+        .RuleFor(p => p.Address, f => $"{f.Person.Address.Street}, {f.Person.Address.City}, {f.Person.Address.State} {f.Person.Address.ZipCode}")
+        .RuleFor(p=>p.Email, f=>f.Person.Email)
+        .RuleFor(p=>p.Phone, f=>f.Person.Phone)
+        .RuleFor(p=>p.Name, f=> $"{f.Person.FirstName} {f.Person.LastName}");
+
+      var _people = faker.Generate(100); 
+            People = _people;
+
+       PeopleJson = JsonSerializer.Serialize(People); 
+  }
+}

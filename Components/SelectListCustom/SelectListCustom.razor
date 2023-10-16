@@ -1,0 +1,38 @@
+@typeparam TItem
+@using System.Reflection
+@inherits SelectListCustomBase<TItem>
+
+<select name="@Name" class="form-select">
+    @if (!string.IsNullOrEmpty(@DefaultText))
+    {
+        <option value="@DefaultValue">@DefaultText</option>
+    }
+
+    @foreach (TItem item in @Data ?? Array.Empty<TItem>())
+    {
+        Type t = @item.GetType();
+        PropertyInfo[] props = t.GetProperties();
+
+        string optionValue = string.Empty;
+        string optionText = string.Empty;
+
+        foreach (var prop in props)
+        {
+            if (prop.Name == @ValueKey) optionValue = prop.GetValue(@item)?.ToString()
+            ?? optionValue;
+            if (prop.Name == @TextKey) optionText = prop.GetValue(@item)?.ToString() ??
+            optionText;
+        }
+
+        if (optionValue == @SelectedOptionByValue)
+        {
+            <option value=@optionValue selected='selected'>@optionText</option>
+        }
+        else
+        {
+            <option value=@optionValue>@optionText</option>
+        }
+    }
+
+</select>
+

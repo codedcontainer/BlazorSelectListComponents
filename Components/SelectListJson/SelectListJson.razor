@@ -1,0 +1,23 @@
+@inherits SelectListJsonBase
+
+<select name="@Name" class="form-select">
+    @if (!string.IsNullOrEmpty(@DefaultText))
+    {
+        <option value="@DefaultValue">@DefaultText</option>
+    }
+
+    @if (@OptionTextValues.Any())
+    {
+        @for (var i = 0; i <= @OptionTextValues.Count - 1; i++)
+        {
+            @if (@OptionValues[@i] == SelectedOptionByValue)
+            {
+                <option value="@OptionValues[@i]" selected="selected">@OptionTextValues[@i]</option>
+            }
+            else
+            {
+                <option value="@OptionValues[@i]">@OptionTextValues[@i]</option>
+            }
+        }
+    }
+</select>
