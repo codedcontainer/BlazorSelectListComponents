@@ -1,4 +1,5 @@
-## Blazor Select List Components
+# Blazor Select List Components
+## Select List Component
 
 ### Description
 A Blazor select list component styled using Bootstrap 5. This component uses reflection and a generic list of objects to create a `<select>` element and nested `<option>` elements.
